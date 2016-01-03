@@ -19,7 +19,7 @@
 -->
 <html>
     <head>
-        <!--
+        <!--<preference name="Orientation" value="landscape" />
         Customize this policy to fit your own app's needs. For more guidance, see:
             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
         Some notes:
@@ -28,22 +28,114 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
+        <title>BoardGame</title>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+        <style type="text/css">
+        	.colorArea { width: %100; }
+        	.corner, .place {position: relative; float:left}
+        	.seperator { width:100px; height: 100px;display:inline }
+        	.left-corner, .place, .colorArea, .name, .place img, .price { display:inline }
+        </style>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
+<!--         <div class="app"> -->
+<!--             <h1>Apache Cordova</h1> -->
+<!--             <div id="deviceready" class="blink"> -->
+<!--                 <p class="event listening">Connecting to Device</p> -->
+<!--                 <p class="event received">Device is Ready</p> -->
+<!--             </div> -->
+<!--         </div> -->
+		<div data-role="page" id="signIn">	
+			<form id="signInForm">
+				<input name="email" type="text" placeholder="email" />
+				<input name="password" type="password" placeholder="password" />
+				<button type="button" id="loginButton">Login</button>
+			</form>
+		</div>
+		<div data-role="page" id="signUp">
+			<input type="text" placeholder="email" />
+		</div>
+		<div data-role="page" id="gameList">
+			<div data-role="header" data-position="fixed">
+				<h1>Table List</h1>
+				<a href="#gameNewTable" data-icon="plus"
+                    class="ui-btn-right ui-link ui-btn
+                    ui-shadow ui-corner-all"
+                    data-transition="slide"
+                    data-role="button" role="button">
+                    Open New
+                </a>
+			</div>
+			
+			<ul data-role="listview" data-filter="true" data-filter-placeholder="Search by name..." data-inset="true">
+				<li><a href="#">Test</a></li>
+				<li><a href="#">Test</a></li>
+			</ul>
+		</div>
+		<div data-role="page" id="gameNewTable">
+			<div data-role="header" data-position="fixed">
+				<h1>Open New Table</h1>
+				<a href="#gameList" data-icon="back"
+				class="ui-btn-left ui-link ui-btn
+                    ui-shadow ui-corner-all"
+                    data-transition="slide" data-direction="reverse"
+                    data-role="button" role="button">
+                    Game List
+                </a>
+			</div>
+			<form id="gameNewTableForm">
+				<input name="tableName" type="text" placeholder="Table name" />
+				<input name="tablePassword" type="password" placeholder="Table password" />
+				<button type="button" id="newTableButton">Open New Table</button>
+			</form>
+		</div>	
+		<div data-role="page" id="gameBoard">
+			<!-- game objects to be cloned -->
+			<div style="display:none">
+			<table>
+			<tr>
+				<td id="cornerToBeCloned" class="corner">
+					<img />
+				</td>
+				<td id="placeToBeCloned" class="place">
+				<table>
+					<tr>
+						<td>
+						
+						</td>
+					</tr>
+				</table>
+					<div class="colorArea">&nbsp;</div><br>
+					<div class="name"></div><br>
+					<img />
+					<div class="price"></div><br>
+				</td>
+			</tr>
+			</table>
+				<div class="seperator" id="seperatorToBeCloned">
+					&nbsp;
+				</div>
+			</div>
+			<table id="gameTable">
+			</table>
+		</div>
+		<div data-role="page" id="areaDetail">
+			
+		</div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+
+        <script type="text/javascript" src="js/websocket.js"></script>
+
+        <script type="text/javascript" src="js/init.js"></script>
+        <script type="text/javascript" src="js/signIn.js"></script>
     </body>
 </html>
