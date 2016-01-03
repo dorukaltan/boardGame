@@ -13,7 +13,7 @@ var data;
 			{
 				try
 				{
-					if(gameCreate.success)
+					if(gameCreateResponse.success)
 					{
 				        $.mobile.navigate("#gameLobby");
 					}
