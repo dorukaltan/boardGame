@@ -63,48 +63,63 @@ function handle_message(evt)
 //	}
 }
 
-function connectWebSocket(callbackFunction)
+function connectWebSocket(callbackFunction, isSignInRequest)
 {
-	try
+	if(typeof(websocket) != 'undefined' &&
+		websocket.readyState == websocket.OPEN)
 	{
-		websocket = new MozWebSocket("ws://"+server+":"+ port);
+		callbackFunction();
 	}
-	catch(error)
+	else if(isSignInRequest)
 	{
 		try
 		{
-			websocket = new WebSocket("ws://"+server+":"+ port);
+			websocket = new MozWebSocket("ws://"+server+":"+ port);
 		}
 		catch(error)
 		{
-			return false;
+			try
+			{
+				websocket = new WebSocket("ws://"+server+":"+ port);
+			}
+			catch(error)
+			{
+				return false;
+			}
 		}
+		
+		websocket.onmessage = function(evt)
+	    {
+	    	handle_message(evt);
+	    };
+	    
+	    websocket.onclose = function(evt)
+	    {
+//	    	if(sira == 0)
+//	    	{
+//	    		server = "10.0.0.251";
+//	    		sira = 1;
+//	    		connect();
+//	    	}
+//	    	else
+//	    	{
+//	    		if(confirm("Socket closed\nYou need to refresh the page.\nDo you want me to do this?"))
+//	    		location.href = location.href;
+//	    	}
+	    	alert("Connection is closed. You will have to login again.");
+			$.mobile.navigate("#signIn");
+	    };
+
+	    websocket.onopen = function(evt)
+	    {
+	    	callbackFunction();
+		}
+
+	    return true;
 	}
-	
-	websocket.onmessage = function(evt)
-    {
-    	handle_message(evt);
-    };
-    
-    websocket.onclose = function(evt)
-    {
-    	if(sira == 0)
-    	{
-    		server = "10.0.0.251";
-    		sira = 1;
-    		connect();
-    	}
-    	else
-    	{
-    		if(confirm("Socket closed\nYou need to refresh the page.\nDo you want me to do this?"))
-    		location.href = location.href;
-    	}
-    };
-//  websocket.onopen = function(evt)
-//  {
-//  	l("CONNECTED");
-//  }
-    
-   setTimeout(callbackFunction, 100);
-   return true;
+	else
+	{
+		alert("Connection is closed. You will have to login again.");
+		$.mobile.navigate("#signIn");
+	}
 }

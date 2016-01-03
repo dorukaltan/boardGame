@@ -15,7 +15,11 @@ var data;
 				{
 					if(signInResponse.success)
 					{
-				        $.mobile.navigate("#gameBoard");
+				        $.mobile.navigate("#gameList");
+					}
+					else
+					{
+						alert('Unable to login. Be sure that email and password are correct.');
 					}
 				}
 				catch(err)
@@ -35,11 +39,11 @@ var data;
 				"requestType": "signIn"
 			};
 			data = JSON.stringify(signInRequest);
-			setTimeout('websocket.send(data)', 1000);
+			websocket.send(data);
 			/*
 			 * Send request ENDS
 			 */
-		});
+		}, true);
 		
 //		if(!success)
 //		{

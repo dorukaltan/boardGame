@@ -1,6 +1,6 @@
 var data;
 //$(document).ready(function(){
-	$('#gameNewTableForm" #newTableButton').click(function()
+	$('#gameNewTableForm #newTableButton').click(function()
 	{
 		var tableName = $('#gameNewTableForm input[name="tableName"]').val();
 		var tablePassword = $('#gameNewTableForm input[name="tablePassword"]').val();
@@ -9,13 +9,13 @@ var data;
 			/*
 			 * Handle response BEGINS
 			 */
-			webSocketHandlerFunctions['signIn'] = function(signInResponse)
+			webSocketHandlerFunctions['gameCreate'] = function(gameCreateResponse)
 			{
 				try
 				{
-					if(signInResponse.success)
+					if(gameCreate.success)
 					{
-				        $.mobile.navigate("#gameBoard");
+				        $.mobile.navigate("#gameLobby");
 					}
 				}
 				catch(err)
@@ -29,13 +29,13 @@ var data;
 			/*
 			 * Send request BEGINS
 			 */
-			var signInRequest = {
-				"email": email,
-				"password": password,
-				"requestType": "signIn"
+			var gameCreateRequest = {
+				"tableName": tableName,
+				"tablePassword": tablePassword,
+				"requestType": "gameCreate"
 			};
-			data = JSON.stringify(signInRequest);
-			setTimeout('websocket.send(data)', 1000);
+			data = JSON.stringify(gameCreateRequest);
+			websocket.send(data);
 			/*
 			 * Send request ENDS
 			 */
