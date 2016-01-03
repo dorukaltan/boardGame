@@ -5,7 +5,7 @@ var data;
 		var tablePassword = null;
 		if(isWithPassword)
 		{
-			tablePassword = confirm('Please type password');
+			tablePassword = prompt('Please type password');
 		}
 
 		var success = connectWebSocket(function()
@@ -19,6 +19,21 @@ var data;
 				{
 					if(gameJoinResponse.success)
 					{
+						var userList = gameJoinResponse.connectedUsers;
+						$('#connectedUsersView').empty();
+						for(var i in userList)
+						{
+							var user = userList[i];
+							$('#connectedUsersView').append('<li>'+ user.name +'</li>');
+						}
+
+						try
+						{
+							$("#connectedUsersView").listview("refresh");	
+						}catch(err){}
+						if(!gameJoinResponse.isAdminOfTable)
+							$('#startGameButton').hide();
+						
 						$.mobile.navigate("#gameLobby");
 					}
 				}

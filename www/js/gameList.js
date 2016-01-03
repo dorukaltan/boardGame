@@ -20,7 +20,9 @@ var data;
 						for(var i in tableList)
 						{
 							var table = tableList[i];
-							$('#gameListView').append('<li><a href="'+ table.tableId +'">'+ table.tableName +'</a></li>');
+							$('#gameListView').append('<li '+  
+									'onclick="gameJoin('+ table.tableId +', '+ table.passwordProtected +')">'+
+									table.tableName +'</li>');
 						}
 						$("#gameListView").listview("refresh");
 					}
